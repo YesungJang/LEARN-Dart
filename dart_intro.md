@@ -8,7 +8,7 @@
  1. fast on all platforms
  2. two compiler
  - dart web : compile js
-   - dart native : translate different architecture of cpu
+ - dart native : translate different architecture of cpu
  - jit : just in time
    - dart VM사용 : 쓴 코드의 결과를 바로 화면에 출력
  - aot : ahead of time -> 개발경험이 좋지 않음(하나하나 컴파일 해야하기 때문)
