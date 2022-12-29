@@ -17,4 +17,4 @@
  - 개발시에는 jit, 배포시에는 aot을 사용
  - null safety
  
-- (dart pad)[https://dartpad.dev/?]
+- [dart pad](https://dartpad.dev/?)
