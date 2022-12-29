@@ -16,3 +16,4 @@
    - c++ -> windows binery : 컴파일 후 그 결과를 배포
  - 개발시에는 jit, 배포시에는 aot을 사용
  - null safety
+ 
