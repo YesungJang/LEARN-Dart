@@ -242,7 +242,7 @@ String sayHello(String name, int age, String country){
 // {required String name, required int age, required String country}
 // 호출 할 때 반드시 name, age, country를 가져가야 된다는 걸 알게 됨
 
-String sayHello({String name, int age, String country}){
+String sayHello({reqiored String name, required int age, required String country}){
     return "Hello $name, you are $age, and you come from $country";
 }
 
@@ -256,5 +256,211 @@ void main(){
         country: "japan",
         name: "ys"
     ));
+}
+```
+
+## optional positional argument
+
+```dart
+void main(){
+    // positional parameter
+    sayHello(1, 2, 3);
+
+    // named parameter
+    sayHello(name : 1, name2 : 2, name3 : 3);
+}
+```
+
+- optional
+
+```dart
+// [String? country = "korea"]
+// nullable and default value
+String sayHello(String name, int age, [String? country = "korea"]) => 'hello $name, you are $age years old from $country'
+
+void main(){
+    var results = sayHello("nico", 2);
+    print(results);
+}
+```
+
+## QQ operator
+
+```dart
+String capitalizeName(String? name)
+  => name != null ? name.toUpperCase() : "ANON";
+->   name?.toUpperCase() ?? "ANON";
+
+
+void main(){
+    // nico
+    capitalizeName('nico');
+
+    // null도 입력할 수 있었으면 좋겠다
+    capitalizeName(null);
+}
+```
+
+```dart
+void main(){
+    String? name;
+    // name이 null일 경우
+    name ??= "neka";
+}
+```
+
+## typedef
+
+alias를 붙이게 해준다
+
+- list
+
+  ```dart
+  typedef ListOfInts = List<int>;
+
+  // ListOfInts reverseListOfNumbers(ListOfInts list)
+  List<int> reverseListOfNumbers(List<int> list){
+      var reversed = list.reversed;
+      return reversed.toList();
+  }
+
+  void main(){
+      reverseListOfNumbers([1,2,3]);
+  }
+  ```
+
+- Map
+
+```dart
+typedef UserInfo = Map<String, String>;
+
+String sayHi(UserInfo userInfo){
+    return "Hi ${userInfo['name']}"
+}
+
+void main(){
+    sayHi({"asdfasdf:"nico"});
+}
+```
+
+## classes
+
+```dart
+// player라는 클래스를 작성
+class Player {
+    // property에서는 타입을 사용해서 정의
+    final String name = 'jang';
+    int xp = 1500;
+
+    void sayHello(){
+        // class내에서는 this를 사용하지 않는것을 권장
+        print("hi my name is $name");
+    }
+}
+
+
+void main(){
+// player의 instance(object)를 작성
+    var player = Player();
+    player.sayHello();
+}
+```
+
+## constructor
+
+```dart
+// arguments의 값이 name과 xp propserties가 되도록
+class Player {
+    // property에서는 타입을 사용해서 정의
+    final String name, team;
+    int xp, age;
+
+    // class이름과 같은
+    // Named Constructor Parameter
+    Player({
+        required this.name,
+        required this.xp,
+        required this.team,
+        required this.age
+        });
+
+    void sayHello(){
+        // class내에서는 this를 사용하지 않는것을 권장
+        print("hi my name is $name");
+    }
+}
+
+
+void main(){
+// player의 instance(object)를 작성
+    var player = Player(
+        name: "jang",
+        xp: 1500,
+        team: "red",
+        age: 12
+        );
+    player.sayHello();
+    var player2 = Player(
+        age: 12,
+        xp: 1500,
+        name: "aya",
+        team: "blue");
+    player2.sayHello();
+}
+```
+
+## Name Constructor
+
+```dart
+class Player {
+    // property에서는 타입을 사용해서 정의
+    final String name, team;
+    int xp, age;
+
+    // class이름과 같은
+    // Named Constructor Parameter
+    Player({
+        required this.name,
+        required this.xp,
+        required this.team,
+        required this.age
+        });
+
+    // dart문법
+    // : 초기화
+    Player.createBluePlayer({required String name, requried int age}) :
+    this.age = age,
+    this.name = name,
+    this.team = "blue",
+    this.xp = 0;
+
+    Player.createRedPlayer(String name, int age) :
+        this.age = age,
+        this.name = name,
+        this.team = "red",
+        this.xp = 0;
+
+    void sayHello(){
+        // class내에서는 this를 사용하지 않는것을 권장
+        print("hi my name is $name");
+    }
+}
+
+
+
+
+// 두개의 counstructor을 작성
+// 1. xp를 기본값 0으로 초기화 시킨 blue팀을 가진 player를 만듬
+// 2. xp를 기본값 0으로 초기화 시킨 red팀의 플레이어를 만듬
+void main(){
+    var bluePlayer = Player.createBluePlayer(
+        name: 'ys',
+        age: 12,
+    );
+
+    var redPlayer = Player.createRedPlayer(
+        "ye",
+        13
+    )
 }
 ```
