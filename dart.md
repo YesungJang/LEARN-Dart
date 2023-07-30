@@ -464,3 +464,229 @@ void main(){
     )
 }
 ```
+
+## Recap Class
+
+```dart
+class Player{
+    final String name;
+    int xp;
+    String team;
+
+    Player.fromJson(Map<String, dynamic> playerJson) :
+        name = playerJson["name"],
+        xp = playerJson["xp"],
+        team = playerJson["team"];
+
+    void sayHello(){
+        print("hi my name is $name");
+    }
+}
+
+
+
+
+void mian(){
+    {
+        "name": "ys1",
+        "team": "red",
+        "xp" : 0,
+    },
+    {
+        "name": "ys2",
+        "team": "red",
+        "xp" : 0,
+    },
+    {
+        "name": "ys3",
+        "team": "red",
+        "xp" : 0,
+    }
+
+    apiData.foreach((playerJson){
+        var player = Player.fromJson(playerJson);
+        player.sayHello();
+    });
+}
+
+```
+
+## Cascade Notation
+
+```dart
+// 평범한 예
+void main(){
+    var nico = Player(name: "nico", xp : 1200, team : "blue");
+    nico.name = "asdf";
+    nico.xp = 1234567;
+    nico.tema = "red"
+}
+
+// cascade를 쓰는 예
+void main(){
+    var nico = Player(name: "nico", xp : 1200, team : "blue")
+    // .. 은 이전의 class을 가르킴
+    ..name = "asdf"
+    ..xp = 1234567
+    ..tema = "red"
+    ..sayHello();
+}
+```
+
+## Enums
+
+- 개발자들이 실수하지 않게끔 도와준다
+
+```dart
+enum Team { red, blue}
+enum XPLevel { beginner, medium, pro}
+
+class Player {
+    String name;
+    XPLevel xp;
+    // 이 부분 String이라고 할 필요가 없다
+    Team team;
+}
+
+void main(){
+    var nico = Player(name: "nico", xp : XPLevel.medium, team : Tema.red);
+}
+
+```
+
+## Abstract Method / 추상화 메소드
+
+- 추상화 클래스로는 object를 생성 불가
+- 추상화 클래스는 다른 클래스들이 직접 구현해야하는 메소드들을 모아놓은 일종의 청사진
+- 공통적으로 해야할거를 미리 작성하는게 좋을 듯
+
+```dart
+// 휴먼이라는 클래스는 walk라는 메소드를 가짐
+abstract class Human {
+    // 이 메소드가 return하는 값을 적음
+    // 추상화 클래스는 walk라는 메소드를 가지고 walk메소드는 void를 return
+    void walk();
+}
+
+enum Team { red, blue}
+enum XPLevel { beginner, medium, pro}
+
+// extends Human을 추가
+// 좋은 점 : 추상화 클래스는 반환 타입만 정해서 정의할 수 있음
+class Player extends Human{
+    String name;
+    XPLevel xp;
+    // 이 부분 String이라고 할 필요가 없다
+    Team team;
+
+    void walk(){
+        print("im walking");
+    }
+}
+
+
+class Coach extends Human{
+    void walk(){
+        print("coach waking");
+    }
+}
+
+void main(){
+    var nico = Player(name: "nico", xp : XPLevel.medium, team : Tema.red);
+}
+
+```
+
+## Inheritance / 상속
+
+```dart
+class Human {
+    final String name;
+    Human(required this.name);
+
+    void sayHello(){
+        print("hi my name is $name";)
+    }
+}
+
+enum Tema { red, blue }
+
+
+// 휴먼클래스에 있는걸 플레이어에 똑같이 넣고싶을 때
+class Player extends Human{
+    final Team team;
+
+    // name argument를 사용하는 player의 생성자 함수를 만듬
+    Player({
+        required this.team,
+        // 603줄에서 넣고있기때문에 필수가 되야한다
+        required String name,
+    }) : super(name: name);
+
+    @override
+    void sayHello(){
+        super.sayHello();
+        print("and I play for ${team}");
+    }
+}
+
+void main(){
+    var player = Player(tema: Team.red, name: "ys");
+}
+
+/*
+ 628L에서 플레이어의 name을 받음
+ name을 Human으로 전달
+ 624L에서 player생성자에게서 온 name은 super생성자로 전달
+ super라는 키워드를 통해 확장을 한 부모 클래스와 상호작용할 수 있게 됨
+*/
+```
+
+- override 복습
+- super 복습
+
+## mixins
+
+- 생성자가 없는 클래스
+- 클래스에 property 를 추가할 때 사용
+- 여러 클래스에 재사용이 가능함
+
+```dart
+
+class Strong{
+    final double strengthLevel = 1500.99;
+}
+
+class QuickRunner{
+    void runQuick(){
+        print("ruuuuuuuuuuuuuuuuuuuuun");
+    }
+}
+
+enum Team { blue, red}
+
+// mixin을 쓸때는 with
+// 상속받을 필요가 없어서 좋음 쉬움
+class Player with Strong, QuickRunner{
+    final Team team;
+
+    Player({
+        required this.team,
+    });
+}
+
+void main(){
+    var player = Player(
+        team: Team.red,
+    );
+
+    player.runQuick;
+}
+```
+
+- extends와with의 차이점
+  - extends를 하게되면 확장한 그 클래스는 부모 클래스가 됨
+    - 자녀 클래스는 부모 클래스를 super을 통해서 접근 가능
+    - -> 부모 클래스의 인스턴스가 된다
+  - with
+    - mixin클래스 내부의 프로퍼티와 메소드들을 가져옴
